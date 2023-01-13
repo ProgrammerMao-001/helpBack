@@ -45,6 +45,16 @@ serve.get('/routerlist', (req, res) => {
     res.send(data);
 })
 
+// todo 查询
+let url = '/testThree'
+serve.get('/aaa', (req, res) => {
+    connection.query(`SELECT * FROM routerlist WHERE url = "${url}"`, (err, results, fields) => {
+        if (err) {
+            console.log(err);
+        }
+        res.send(results);
+    })
+})
 
 serve.listen(3000, () => {
     console.log("服务已经启动,3000 端口监听中...");
