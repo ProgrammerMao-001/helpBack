@@ -26,15 +26,15 @@ connection.connect(function (err) {
     console.log('连接成功 id ' + connection.threadId);
 })
 
+let sql = 'SELECT * FROM routerlist'
 let data = ''
-connection.query('SELECT * FROM routerlist', function (err, result) {
+connection.query(sql, function (err, result) {
     if (err) {
         console.log('[SELECT ERROR]:', err.message);
     }
     data = JSON.stringify(result);
 })
 
-// var insert = `INSERT INTO table_name (name,url )VALUES(${name},${url});`
 serve.get('/', (req, res) => {
     res.send('express启动成功!');
 })
@@ -44,6 +44,7 @@ serve.get('/routerlist', (req, res) => {
     console.log(req.query.name)
     res.send(data);
 })
+
 
 serve.listen(3000, () => {
     console.log("服务已经启动,3000 端口监听中...");
