@@ -13,10 +13,29 @@ serve.all('*', function (req, res, next) {
 serve.get('/routerlist', (req, res) => {
     // 查询实例
     db.query('select * from routerlist', [], function (result, fields) {
-        console.log(result);
+        // console.log(result);
         res.send(result);
     });
 })
+
+// 查询的接口
+serve.get('/aaa', (req, res) => {
+    // console.log(req.query)
+    let sql = 'select * from routerlist';
+    let obj = req.query;
+    if (!obj) sql = 'select name,url from routerlist'
+    if (obj.url && !obj.name) sql = `SELECT * FROM routerlist WHERE url = "${obj.url}"`
+    if (obj.name && !obj.url) sql = `SELECT * FROM routerlist WHERE name = "${obj.name}"`
+    if (obj.url && obj.name) sql = `SELECT * FROM routerlist WHERE name = "${obj.name}" AND url = "${obj.url}"`
+    // console.log(sql)
+    db.query(sql, (err, results, fields) => {
+        if (err) {
+            console.log(err);
+        }
+        res.send(results);
+    })
+})
+
 
 //添加实例
 // var addSql = 'INSERT INTO websites(username,password) VALUES(?,?)';
