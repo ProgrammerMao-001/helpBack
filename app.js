@@ -26,13 +26,12 @@ connection.connect(function (err) {
     console.log('连接成功 id ' + connection.threadId);
 })
 
-let sql = 'SELECT * FROM routerlist';
-let str = '';
-connection.query(sql, function (err, result) {
+let data = ''
+connection.query('SELECT * FROM routerlist', function (err, result) {
     if (err) {
         console.log('[SELECT ERROR]:', err.message);
     }
-    str = JSON.stringify(result);
+    data = JSON.stringify(result);
 })
 
 // var insert = `INSERT INTO table_name (name,url )VALUES(${name},${url});`
@@ -43,7 +42,7 @@ serve.get('/', (req, res) => {
 // 查询 router 的全部数据
 serve.get('/routerlist', (req, res) => {
     console.log(req.query.name)
-    res.send(str);
+    res.send(data);
 })
 
 serve.listen(3000, () => {
